@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # ✅ FullStack Todo Web Application
 
 A modern Full Stack Todo Web Application built with **Next.js frontend** and **FastAPI backend**.  
@@ -65,3 +66,6 @@ hackathon2-phase2-todo-application-qtho-1mxpzu79u.vercel.app
 Backend API Docs:
 https://nabiahaider-hackathon2-phase2-todo-app.hf.space/docs
 
+=======
+# Hackathon2_Phase3_Todo-AI-Chatbot_
+>>>>>>> 03634659b959af3ccecd54d1b99a9a00e0eff955
