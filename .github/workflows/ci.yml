@@ -1,0 +1,59 @@
+name: CI Pipeline
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+  pull_request:
+    branches:
+      - main
+      - develop
+
+jobs:
+  backend-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install backend dependencies
+        run: pip install -r backend/requirements.txt
+        working-directory: ./backend
+
+      - name: Run backend tests
+        run: pytest tests/
+        working-directory: ./backend
+        env:
+          # Use an in-memory SQLite for tests
+          Neon_db_url: sqlite:///./test.db
+          COHERE_API_KEY: ${{ secrets.COHERE_API_KEY }}
+          BETTER_AUTH_SECRET: ${{ secrets.BETTER_AUTH_SECRET }}
+          BETTER_AUTH_URL: ${{ secrets.BETTER_AUTH_URL }}
+
+  frontend-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Install frontend dependencies
+        run: npm install
+        working-directory: ./frontend
+
+      - name: Run frontend tests
+        # Assuming Playwright tests based on playwright.config.ts existence
+        run: npx playwright test
+        working-directory: ./frontend
+        env:
+          NEXT_PUBLIC_API_BASE_URL: http://localhost:8000 # Placeholder for frontend API base URL
